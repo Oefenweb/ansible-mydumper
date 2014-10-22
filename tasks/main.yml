@@ -1,5 +1,14 @@
 ---
 # tasks file for mydumper
+- name: install dependencies
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: true
+  with_items: mydumper_dependencies
+  when: mydumper_dependencies
+  tags: [configuration, mydumper, mydumper-dependencies]
+
 - name: create (download) directory
   file:
     path: /var/lib/ansible/mydumper/downloads
