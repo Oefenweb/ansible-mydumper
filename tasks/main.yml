@@ -1,0 +1,47 @@
+---
+# tasks file for mydumper
+- name: create (download) directory
+  file:
+    path: /var/lib/ansible/mydumper/downloads
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  tags: [configuration, mydumper, mydumper-download ]
+
+- name: download
+  get_url:
+    url: "{{ mydumper_version.url }}"
+    dest: "/var/lib/ansible/mydumper/downloads/{{ mydumper_version.url | number }}"
+    owner: root
+    group: root
+    mode: 0644
+  tags: [configuration, mydumper, mydumper-download]
+
+- name: remove
+  shell: "echo remove"
+  when: ansible_local is not defined or ansible_local.mydumper is not defined or ansible_local.mydumper.version is not defined or ansible_local.mydumper.version.number is not defined or ansible_local.mydumper.version.number is defined and ansible_local.mydumper.version.number | version_compare(mydumper_version.number, '!=')
+  tags: [configuration, mydumper, mydumper-install]
+
+- name: install
+  shell: "echo install"
+  when: ansible_local is not defined or ansible_local.mydumper is not defined or ansible_local.mydumper.version is not defined or ansible_local.mydumper.version.number is not defined or ansible_local.mydumper.version.number is defined and ansible_local.mydumper.version.number | version_compare(mydumper_version.number, '!=')
+  tags: [configuration, mydumper, mydumper-install]
+
+- name: create (local facts) directory
+  file:
+    path: /etc/ansible/facts.d/
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  tags: [configuration, mydumper, mydumper-facts]
+
+- name: set local facts
+  template:
+    src: etc/ansible/facts.d/mydumper.fact.j2
+    dest: /etc/ansible/facts.d/mydumper.fact
+    owner: root
+    group: root
+    mode: 0644
+  tags: [configuration, mydumper, mydumper-facts]
