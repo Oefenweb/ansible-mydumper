@@ -5,3 +5,5 @@ mydumper_version:
   url: https://launchpad.net/mydumper/0.6/0.6.2/+download/mydumper-0.6.2.tar.gz
 
 mydumper_install_prefix: /usr/local
+
+mydumper_libmysqlclient_dev: libmysqlclient-dev

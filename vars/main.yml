@@ -4,8 +4,7 @@ mydumper_dependencies:
   - libglib2.0-dev
   - zlib1g-dev
   - libpcre3-dev
-    # Will install the correct version, but not when using percona server
-  - libmysqlclient-dev
+  - "{{ mydumper_libmysqlclient_dev }}"
   - libssl-dev
   - python-sphinx
   - build-essential
