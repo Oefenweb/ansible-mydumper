@@ -4,4 +4,9 @@ mydumper_dependencies:
   - libglib2.0-dev
   - zlib1g-dev
   - libpcre3-dev
-  - libmysqlclient-dev
+    # mysql 5.5, could also be (16 or 18.1)
+  - libmysqlclient18-dev
+  - libssl-dev
+  - python-sphinx
+  - cmake
+  - patch
