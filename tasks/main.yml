@@ -12,7 +12,7 @@
 - name: download
   get_url:
     url: "{{ mydumper_version.url }}"
-    dest: "/var/lib/ansible/mydumper/downloads/{{ mydumper_version.url | number }}"
+    dest: "/var/lib/ansible/mydumper/downloads/{{ mydumper_version.url | basename }}"
     owner: root
     group: root
     mode: 0644
