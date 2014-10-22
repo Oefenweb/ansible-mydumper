@@ -9,9 +9,10 @@ Set up [mydumper](https://launchpad.net/mydumper) (How MySQL DBA & support engin
 * `libglib2.0-dev` (will be installed)
 * `zlib1g-dev` (will be installed)
 * `libpcre3-dev` (will be installed)
-* `libmysqlclient18-dev` (will be installed)
+* `libmysqlclient-dev` (will be installed)
 * `libssl-dev` (will be installed)
 * `python-sphinx` (will be installed)
+* `build-essential` (will be installed)
 * `cmake` (will be installed)
 * `patch` (will be installed)
 

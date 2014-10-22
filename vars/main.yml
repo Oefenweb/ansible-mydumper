@@ -8,5 +8,6 @@ mydumper_dependencies:
   - libmysqlclient-dev
   - libssl-dev
   - python-sphinx
+  - build-essential
   - cmake
   - patch
