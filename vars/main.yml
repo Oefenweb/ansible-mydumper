@@ -1,5 +1,5 @@
----
 # vars file for mydumper
+---
 mydumper_dependencies:
   - libglib2.0-dev
   - zlib1g-dev

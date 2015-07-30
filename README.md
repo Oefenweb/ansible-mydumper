@@ -32,7 +32,7 @@ None
 ---
 - hosts: all
   roles:
-  - mydumper
+    - mydumper
 ```
 
 #### License

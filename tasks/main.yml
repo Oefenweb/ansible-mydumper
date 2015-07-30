@@ -1,15 +1,16 @@
----
 # tasks file for mydumper
+---
 - name: install dependencies
   apt:
     name: "{{ item }}"
     state: latest
     update_cache: true
+    cache_valid_time: 3600
   with_items: mydumper_dependencies
   when: mydumper_dependencies
   tags: [configuration, mydumper, mydumper-dependencies]
 
-  # see http://blog.tersmitten.nl/how-to-install-mydumper-on-ubuntu-12-04-in-combination-with-percona-server.html
+  # See http://blog.tersmitten.nl/how-to-install-mydumper-on-ubuntu-12-04-in-combination-with-percona-server.html
 - name: check (libmysqlclient_r.so) symlink
   shell: "test -f $(readlink libmysqlclient_r.so)"
   args:
@@ -60,7 +61,7 @@
     creates: "/var/lib/ansible/mydumper/builds/mydumper-{{ mydumper_version.number }}"
   tags: [configuration, mydumper, mydumper-install]
 
-  # see http://stackoverflow.com/a/25871286
+  # See http://stackoverflow.com/a/25871286
 - name: create (build) directory
   file:
     path: "/var/lib/ansible/mydumper/builds/mydumper-{{ mydumper_version.number }}/build"
