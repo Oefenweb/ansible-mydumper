@@ -7,7 +7,6 @@
     update_cache: true
     cache_valid_time: 3600
   with_items: mydumper_dependencies
-  when: mydumper_dependencies
   tags: [configuration, mydumper, mydumper-dependencies]
 
   # See http://blog.tersmitten.nl/how-to-install-mydumper-on-ubuntu-12-04-in-combination-with-percona-server.html
@@ -16,8 +15,8 @@
   args:
     chdir: "/usr/lib"
   register: check_symlink
-  failed_when: False
-  changed_when: False
+  failed_when: false
+  changed_when: false
   tags: [configuration, mydumper, mydumper-install]
 
 - name: create (libmysqlclient_r.so) symlink
