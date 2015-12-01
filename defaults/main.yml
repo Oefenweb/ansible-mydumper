@@ -1,8 +1,8 @@
 # defaults file for mydumper
 ---
 mydumper_version:
-  number: 0.6.2
-  url: https://launchpad.net/mydumper/0.6/0.6.2/+download/mydumper-0.6.2.tar.gz
+  number: 0.9.1
+  url: https://launchpad.net/mydumper/0.9/0.9.1/+download/mydumper-0.9.1.tar.gz
 
 mydumper_install_prefix: /usr/local
 
