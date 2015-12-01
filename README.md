@@ -18,7 +18,7 @@ Set up [mydumper](https://launchpad.net/mydumper) (How MySQL DBA & support engin
 
 #### Variables
 
-* `mydumper_version` [default: `{number: 0.6.2, url: https://launchpad.net/mydumper/0.6/0.6.2/+download/mydumper-0.6.2.tar.gz}`]: Version to install
+* `mydumper_version` [default: `{number: 0.9.1, url: https://launchpad.net/mydumper/0.9/0.9.1/+download/mydumper-0.9.1.tar.gz}`]: Version to install
 * `mydumper_install_prefix` [default: `/usr/local`]: Install prefix (`cmake -DCMAKE_INSTALL_PREFIX`)
 * `mydumper_libmysqlclient_dev` [default: `libmysqlclient-dev`]: `libmysqlclient-dev` version to install. Percona Server users might want to change this to `libmysqlclient16-dev` (5.1), `libmysqlclient18-dev` (5.5) or `libmysqlclient18.1-dev` (5.6).
 
