@@ -10,3 +10,6 @@ mydumper_dependencies:
   - build-essential
   - cmake
   - patch
+
+mydumper_downloads_path: /var/lib/ansible/mydumper/downloads
+mydumper_builds_path: /var/lib/ansible/mydumper/builds
