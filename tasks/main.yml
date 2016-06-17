@@ -6,84 +6,125 @@
     state: latest
     update_cache: true
     cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
-  with_items: mydumper_dependencies
-  tags: [configuration, mydumper, mydumper-dependencies]
+  with_items: "{{ mydumper_dependencies }}"
+  tags:
+    - configuration
+    - mydumper
+    - mydumper-dependencies
 
   # See http://blog.tersmitten.nl/how-to-install-mydumper-on-ubuntu-12-04-in-combination-with-percona-server.html
 - name: check (libmysqlclient_r.so) symlink
-  shell: "test -f $(readlink libmysqlclient_r.so)"
+  shell: test -f $(readlink libmysqlclient_r.so)
   args:
-    chdir: "/usr/lib"
+    chdir: /usr/lib
   register: check_symlink
   failed_when: false
   changed_when: false
-  tags: [configuration, mydumper, mydumper-install]
+  tags:
+    - configuration
+    - mydumper
+    - mydumper-install
 
 - name: create (libmysqlclient_r.so) symlink
-  shell: "ln -sf libmysqlclient.so libmysqlclient_r.so"
+  shell: ln -sf libmysqlclient.so libmysqlclient_r.so
   args:
-    chdir: "/usr/lib"
+    chdir: /usr/lib
   when: check_symlink.rc != 0
-  tags: [configuration, mydumper, mydumper-install]
+  tags:
+    - configuration
+    - mydumper
+    - mydumper-install
 
-- name: create (download) directory
+- name: create directories
   file:
-    path: /var/lib/ansible/mydumper/downloads
+    path: "{{ item }}"
     state: directory
     owner: root
     group: root
     mode: 0755
-  tags: [configuration, mydumper, mydumper-download ]
+  with_items:
+    - "{{ mydumper_downloads_path }}"
+    - "{{ mydumper_builds_path }}"
+  tags:
+    - configuration
+    - mydumper
+    - mydumper-directories
 
 - name: download
   get_url:
     url: "{{ mydumper_version.url }}"
-    dest: "/var/lib/ansible/mydumper/downloads/mydumper-{{ mydumper_version.number }}.tar.gz"
+    dest: "{{ mydumper_downloads_path }}/mydumper-{{ mydumper_version.number }}.tar.gz"
     owner: root
     group: root
     mode: 0644
-  tags: [configuration, mydumper, mydumper-download]
-
-- name: create (builds) directory
-  file:
-    path: /var/lib/ansible/mydumper/builds
-    state: directory
-    owner: root
-    group: root
-    mode: 0755
-  tags: [configuration, mydumper, mydumper-install ]
+  tags:
+    - configuration
+    - mydumper
+    - mydumper-download
 
 - name: extract source
-  shell: "tar -xzvf /var/lib/ansible/mydumper/downloads/mydumper-{{ mydumper_version.number }}.tar.gz"
+  shell: >
+    tar -xzvf {{ mydumper_downloads_path }}/mydumper-{{ mydumper_version.number }}.tar.gz
   args:
-    chdir: /var/lib/ansible/mydumper/builds
-    creates: "/var/lib/ansible/mydumper/builds/mydumper-{{ mydumper_version.number }}"
-  tags: [configuration, mydumper, mydumper-install]
+    chdir: "{{ mydumper_builds_path }}"
+    creates: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}"
+  tags:
+    - configuration
+    - mydumper
+    - mydumper-install
 
   # See http://stackoverflow.com/a/25871286
 - name: create (build) directory
   file:
-    path: "/var/lib/ansible/mydumper/builds/mydumper-{{ mydumper_version.number }}/build"
+    path: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/build"
     state: directory
     owner: root
     group: root
     mode: 0755
-  when: ansible_local is not defined or ansible_local.mydumper is not defined or ansible_local.mydumper.version is not defined or ansible_local.mydumper.version.number is not defined or ansible_local.mydumper.version.number is defined and ansible_local.mydumper.version.number | version_compare(mydumper_version.number, '!=')
-  tags: [configuration, mydumper, mydumper-install ]
+  when: >
+    ansible_local is not defined
+    or ansible_local.mydumper is not defined
+    or ansible_local.mydumper.version is not defined
+    or ansible_local.mydumper.version.number is not defined
+    or ansible_local.mydumper.version.number is defined
+    and ansible_local.mydumper.version.number | version_compare(mydumper_version.number, '!=')
+  tags:
+    - configuration
+    - mydumper
+    - mydumper-install
 
 - name: build source
-  shell: "cmake ../ -DCMAKE_INSTALL_PREFIX={{ mydumper_install_prefix }} && make && make install"
+  shell: >
+    cmake ../ -DCMAKE_INSTALL_PREFIX={{ mydumper_install_prefix }} && make && make install
   args:
-    chdir: "/var/lib/ansible/mydumper/builds/mydumper-{{ mydumper_version.number }}/build"
-  when: ansible_local is not defined or ansible_local.mydumper is not defined or ansible_local.mydumper.version is not defined or ansible_local.mydumper.version.number is not defined or ansible_local.mydumper.version.number is defined and ansible_local.mydumper.version.number | version_compare(mydumper_version.number, '!=')
-  tags: [configuration, mydumper, mydumper-install]
+    chdir: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/build"
+  when: >
+    ansible_local is not defined
+    or ansible_local.mydumper is not defined
+    or ansible_local.mydumper.version is not defined
+    or ansible_local.mydumper.version.number is not defined
+    or ansible_local.mydumper.version.number is defined
+    and ansible_local.mydumper.version.number | version_compare(mydumper_version.number, '!=')
+  tags:
+    - configuration
+    - mydumper
+    - mydumper-install
 
 - name: remove (build) directory
   file:
-    path: "/var/lib/ansible/mydumper/builds/mydumper-{{ mydumper_version.number }}/build"
+    path: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/build"
     state: absent
-  when: ansible_local is not defined or ansible_local.mydumper is not defined or ansible_local.mydumper.version is not defined or ansible_local.mydumper.version.number is not defined or ansible_local.mydumper.version.number is defined and ansible_local.mydumper.version.number | version_compare(mydumper_version.number, '!=')
-  tags: [configuration, mydumper, mydumper-install ]
+  when: >
+    ansible_local is not defined
+    or ansible_local.mydumper is not defined
+    or ansible_local.mydumper.version is not defined
+    or ansible_local.mydumper.version.number is not defined
+    or ansible_local.mydumper.version.number is defined
+    and ansible_local.mydumper.version.number | version_compare(mydumper_version.number, '!=')
+  tags:
+    - configuration
+    - mydumper
+    - mydumper-install
 
 - name: create (local facts) directory
   file:
@@ -92,7 +133,10 @@
     owner: root
     group: root
     mode: 0755
-  tags: [configuration, mydumper, mydumper-facts]
+  tags:
+    - configuration
+    - mydumper
+    - mydumper-facts
 
 - name: set local facts
   template:
@@ -101,4 +145,7 @@
     owner: root
     group: root
     mode: 0644
-  tags: [configuration, mydumper, mydumper-facts]
+  tags:
+    - configuration
+    - mydumper
+    - mydumper-facts
