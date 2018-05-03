@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Oefenweb/ansible-mydumper.svg?branch=master)](https://travis-ci.org/Oefenweb/ansible-mydumper) [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-mydumper-blue.svg)](https://galaxy.ansible.com/tersmitten/mydumper)
 
-Set up [mydumper](https://launchpad.net/mydumper) (How MySQL DBA & support engineer would imagine 'mysqldump') in Debian-like systems.
+Set up [mydumper](https://github.com/maxbube/mydumper) (How MySQL DBA & support engineer would imagine 'mysqldump') in Debian-like systems.
 
 #### Requirements
 
@@ -20,7 +20,7 @@ Set up [mydumper](https://launchpad.net/mydumper) (How MySQL DBA & support engin
 
 * `mydumper_version` [default: `{number: 0.9.3, url: https://github.com/maxbube/mydumper/archive/v0.9.3.tar.gz}`]: Version to install
 * `mydumper_install_prefix` [default: `/usr/local`]: Install prefix (`cmake -DCMAKE_INSTALL_PREFIX`)
-* `mydumper_libmysqlclient_dev` [default: `libmysqlclient-dev`]: `libmysqlclient-dev` version to install. Percona Server users might want to change this to `libmysqlclient16-dev` (5.1), `libmysqlclient18-dev` (5.5), `libmysqlclient18.1-dev` (5.6) or `libperconaserverclient20-dev` (5.7).
+* `mydumper_libmysqlclient_dev` [default: `libmysqlclient-dev`]: `libmysqlclient-dev` version to install. Percona Server users might want to change this to `libperconaserverclient16-dev` (5.1), `libperconaserverclient18-dev` (5.5), `libperconaserverclient18.1-dev` (5.6) or `libperconaserverclient20-dev` (5.7).
 
 #### Dependencies
 
