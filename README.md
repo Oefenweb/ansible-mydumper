@@ -1,6 +1,6 @@
 ## mydumper
 
-[![Build Status](https://travis-ci.org/Oefenweb/ansible-mydumper.svg?branch=master)](https://travis-ci.org/Oefenweb/ansible-mydumper) [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-mydumper-blue.svg)](https://galaxy.ansible.com/tersmitten/mydumper)
+[![Build Status](https://travis-ci.org/Oefenweb/ansible-mydumper.svg?branch=master)](https://travis-ci.org/Oefenweb/ansible-mydumper) [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-mydumper-blue.svg)](https://galaxy.ansible.com/Oefenweb/mydumper)
 
 Set up [mydumper](https://github.com/maxbube/mydumper) (How MySQL DBA & support engineer would imagine 'mysqldump') in Debian-like systems.
 
