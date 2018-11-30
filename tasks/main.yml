@@ -87,7 +87,7 @@
     or ansible_local.mydumper.version is not defined
     or ansible_local.mydumper.version.number is not defined
     or ansible_local.mydumper.version.number is defined
-    and ansible_local.mydumper.version.number | version_compare(mydumper_version.number, '!=')
+    and ansible_local.mydumper.version.number is version(mydumper_version.number, '!=')
   tags:
     - configuration
     - mydumper
@@ -104,7 +104,7 @@
     or ansible_local.mydumper.version is not defined
     or ansible_local.mydumper.version.number is not defined
     or ansible_local.mydumper.version.number is defined
-    and ansible_local.mydumper.version.number | version_compare(mydumper_version.number, '!=')
+    and ansible_local.mydumper.version.number is version(mydumper_version.number, '!=')
   tags:
     - configuration
     - mydumper
@@ -120,7 +120,7 @@
     or ansible_local.mydumper.version is not defined
     or ansible_local.mydumper.version.number is not defined
     or ansible_local.mydumper.version.number is defined
-    and ansible_local.mydumper.version.number | version_compare(mydumper_version.number, '!=')
+    and ansible_local.mydumper.version.number is version(mydumper_version.number, '!=')
   tags:
     - configuration
     - mydumper
