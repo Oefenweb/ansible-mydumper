@@ -2,11 +2,10 @@
 ---
 - name: install dependencies
   apt:
-    name: "{{ item }}"
+    name: "{{ mydumper_dependencies }}"
     state: "{{ apt_install_state | default('latest') }}"
     update_cache: true
     cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
-  with_items: "{{ mydumper_dependencies }}"
   tags:
     - configuration
     - mydumper
@@ -14,10 +13,11 @@
 
   # See http://blog.tersmitten.nl/how-to-install-mydumper-on-ubuntu-12-04-in-combination-with-percona-server.html
 - name: check (libmysqlclient_r.so) symlink
-  shell: test -f $(readlink libmysqlclient_r.so)
+  shell: >
+    test -f $(readlink libmysqlclient_r.so)
   args:
     chdir: /usr/lib
-  register: check_symlink
+  register: _check_symlink
   failed_when: false
   changed_when: false
   tags:
@@ -26,10 +26,11 @@
     - mydumper-install
 
 - name: create (libmysqlclient_r.so) symlink
-  shell: ln -sf libmysqlclient.so libmysqlclient_r.so
+  shell: >
+    ln -sf libmysqlclient.so libmysqlclient_r.so
   args:
     chdir: /usr/lib
-  when: check_symlink.rc != 0
+  when: _check_symlink.rc != 0
   tags:
     - configuration
     - mydumper
