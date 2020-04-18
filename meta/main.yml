@@ -1,6 +1,7 @@
 # meta file for mydumper
 ---
 galaxy_info:
+  role_name: mydumper
   author: Mischa ter Smitten
   company: Oefenweb.nl B.V.
   description: Set up mydumper in Debian-like systems
