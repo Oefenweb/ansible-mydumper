@@ -69,6 +69,7 @@
   args:
     chdir: "{{ mydumper_builds_path }}"
     creates: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}"
+    warn: false
   tags:
     - configuration
     - mydumper
