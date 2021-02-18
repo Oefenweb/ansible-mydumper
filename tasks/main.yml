@@ -48,118 +48,124 @@
     - mydumper
     - mydumper-install
 
-- name: create directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: root
-    group: root
-    mode: 0755
-  with_items:
-    - "{{ mydumper_downloads_path }}"
-    - "{{ mydumper_builds_path }}"
-  tags:
-    - configuration
-    - mydumper
-    - mydumper-directories
+- block:
 
-- name: download
-  get_url:
-    url: "{{ mydumper_version.url }}"
-    dest: "{{ mydumper_downloads_path }}/mydumper-{{ mydumper_version.number }}.tar.gz"
-    owner: root
-    group: root
-    mode: 0644
-  tags:
-    - configuration
-    - mydumper
-    - mydumper-download
+    - name: create directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+      with_items:
+        - "{{ mydumper_downloads_path }}"
+        - "{{ mydumper_builds_path }}"
+      tags:
+        - configuration
+        - mydumper
+        - mydumper-directories
 
-- name: extract source
-  shell: >
-    tar -xzvf {{ mydumper_downloads_path }}/mydumper-{{ mydumper_version.number }}.tar.gz
-  args:
-    chdir: "{{ mydumper_builds_path }}"
-    creates: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}"
-    warn: false
-  tags:
-    - configuration
-    - mydumper
-    - mydumper-install
+    - name: download
+      get_url:
+        url: "{{ mydumper_version.url }}"
+        dest: "{{ mydumper_downloads_path }}/mydumper-{{ mydumper_version.number }}.tar.gz"
+        owner: root
+        group: root
+        mode: 0644
+      tags:
+        - configuration
+        - mydumper
+        - mydumper-download
 
-# See http://stackoverflow.com/a/25871286
-- name: create (build) directory
-  file:
-    path: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/build"
-    state: directory
-    owner: root
-    group: root
-    mode: 0755
-  when: >
-    ansible_local is not defined
-    or ansible_local.mydumper is not defined
-    or ansible_local.mydumper.version is not defined
-    or ansible_local.mydumper.version.number is not defined
-    or ansible_local.mydumper.version.number is defined
-    and ansible_local.mydumper.version.number is version(mydumper_version.number, '!=')
-  tags:
-    - configuration
-    - mydumper
-    - mydumper-install
+    - name: extract source
+      shell: >
+        tar -xzvf {{ mydumper_downloads_path }}/mydumper-{{ mydumper_version.number }}.tar.gz
+      args:
+        chdir: "{{ mydumper_builds_path }}"
+        creates: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}"
+        warn: false
+      tags:
+        - configuration
+        - mydumper
+        - mydumper-install
 
-- name: build source
-  shell: >
-    cmake ../ -DCMAKE_INSTALL_PREFIX={{ mydumper_install_prefix }} && make && make install
-  args:
-    chdir: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/build"
-  when: >
-    ansible_local is not defined
-    or ansible_local.mydumper is not defined
-    or ansible_local.mydumper.version is not defined
-    or ansible_local.mydumper.version.number is not defined
-    or ansible_local.mydumper.version.number is defined
-    and ansible_local.mydumper.version.number is version(mydumper_version.number, '!=')
-  tags:
-    - configuration
-    - mydumper
-    - mydumper-install
+    # See http://stackoverflow.com/a/25871286
+    - name: create (build) directory
+      file:
+        path: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/build"
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+      when: >
+        ansible_local is not defined
+        or ansible_local.mydumper is not defined
+        or ansible_local.mydumper.version is not defined
+        or ansible_local.mydumper.version.number is not defined
+        or ansible_local.mydumper.version.number is defined
+        and ansible_local.mydumper.version.number is version(mydumper_version.number, '!=')
+      tags:
+        - configuration
+        - mydumper
+        - mydumper-install
 
-- name: remove (build) directory
-  file:
-    path: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/build"
-    state: absent
-  when: >
-    ansible_local is not defined
-    or ansible_local.mydumper is not defined
-    or ansible_local.mydumper.version is not defined
-    or ansible_local.mydumper.version.number is not defined
-    or ansible_local.mydumper.version.number is defined
-    and ansible_local.mydumper.version.number is version(mydumper_version.number, '!=')
-  tags:
-    - configuration
-    - mydumper
-    - mydumper-install
+    - name: build source
+      shell: >
+        cmake ../ -DCMAKE_INSTALL_PREFIX={{ mydumper_install_prefix }} && make && make install
+      args:
+        chdir: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/build"
+      when: >
+        ansible_local is not defined
+        or ansible_local.mydumper is not defined
+        or ansible_local.mydumper.version is not defined
+        or ansible_local.mydumper.version.number is not defined
+        or ansible_local.mydumper.version.number is defined
+        and ansible_local.mydumper.version.number is version(mydumper_version.number, '!=')
+      tags:
+        - configuration
+        - mydumper
+        - mydumper-install
 
-- name: create (local facts) directory
-  file:
-    path: /etc/ansible/facts.d/
-    state: directory
-    owner: root
-    group: root
-    mode: 0755
-  tags:
-    - configuration
-    - mydumper
-    - mydumper-facts
+    - name: remove (build) directory
+      file:
+        path: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/build"
+        state: absent
+      when: >
+        ansible_local is not defined
+        or ansible_local.mydumper is not defined
+        or ansible_local.mydumper.version is not defined
+        or ansible_local.mydumper.version.number is not defined
+        or ansible_local.mydumper.version.number is defined
+        and ansible_local.mydumper.version.number is version(mydumper_version.number, '!=')
+      tags:
+        - configuration
+        - mydumper
+        - mydumper-install
 
-- name: set local facts
-  template:
-    src: etc/ansible/facts.d/mydumper.fact.j2
-    dest: /etc/ansible/facts.d/mydumper.fact
-    owner: root
-    group: root
-    mode: 0644
-  tags:
-    - configuration
-    - mydumper
-    - mydumper-facts
+    - name: create (local facts) directory
+      file:
+        path: /etc/ansible/facts.d/
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+      tags:
+        - configuration
+        - mydumper
+        - mydumper-facts
+
+    - name: set local facts
+      template:
+        src: etc/ansible/facts.d/mydumper.fact.j2
+        dest: /etc/ansible/facts.d/mydumper.fact
+        owner: root
+        group: root
+        mode: 0644
+      tags:
+        - configuration
+        - mydumper
+        - mydumper-facts
+
+  when:
+    - ansible_distribution == 'Debian'
+    - ansible_distribution_major_version is version('10', '>=')
