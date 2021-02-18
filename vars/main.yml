@@ -6,10 +6,11 @@ mydumper_dependencies:
   - libpcre3-dev
   - "{{ mydumper_libmysqlclient_dev }}"
   - libssl-dev
-  - python-sphinx
+  - "python{{ ansible_python_version is version('3', '>=') | ternary('3', '') }}-sphinx"
   - build-essential
   - cmake
   - patch
 
 mydumper_downloads_path: /var/lib/ansible/mydumper/downloads
 mydumper_builds_path: /var/lib/ansible/mydumper/builds
+mydumper_facts_file: /etc/ansible/facts.d/mydumper.fact

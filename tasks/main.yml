@@ -11,7 +11,7 @@
     - mydumper
     - mydumper-dependencies
 
-  # See http://blog.tersmitten.nl/how-to-install-mydumper-on-ubuntu-12-04-in-combination-with-percona-server.html
+# See http://blog.tersmitten.nl/how-to-install-mydumper-on-ubuntu-12-04-in-combination-with-percona-server.html
 - name: check (libmysqlclient_r.so) symlink
   shell: >
     test -f $(readlink libmysqlclient_r.so)
@@ -30,7 +30,24 @@
     ln -sf libmysqlclient.so libmysqlclient_r.so
   args:
     chdir: /usr/lib
+    warn: false
   when: _check_symlink.rc != 0
+  tags:
+    - configuration
+    - mydumper
+    - mydumper-install
+
+- name: create (mysql_config) symlink
+  shell: >
+    true
+    && [ -x mariadb_config ]
+    && ln -sf mariadb_config mysql_config
+  args:
+    chdir: /usr/bin
+    creates: mysql_config
+    warn: false
+  when: mydumper_libmysqlclient_dev.find('mariadb') != -1
+  failed_when: false
   tags:
     - configuration
     - mydumper
@@ -75,47 +92,31 @@
     - mydumper
     - mydumper-install
 
-  # See http://stackoverflow.com/a/25871286
-- name: create (build) directory
-  file:
-    path: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/build"
-    state: directory
-    owner: root
-    group: root
-    mode: 0755
-  when: >
-    ansible_local is not defined
-    or ansible_local.mydumper is not defined
-    or ansible_local.mydumper.version is not defined
-    or ansible_local.mydumper.version.number is not defined
-    or ansible_local.mydumper.version.number is defined
-    and ansible_local.mydumper.version.number is version(mydumper_version.number, '!=')
-  tags:
-    - configuration
-    - mydumper
-    - mydumper-install
+- block:
 
-- name: build source
-  shell: >
-    cmake ../ -DCMAKE_INSTALL_PREFIX={{ mydumper_install_prefix }} && make && make install
-  args:
-    chdir: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/build"
-  when: >
-    ansible_local is not defined
-    or ansible_local.mydumper is not defined
-    or ansible_local.mydumper.version is not defined
-    or ansible_local.mydumper.version.number is not defined
-    or ansible_local.mydumper.version.number is defined
-    and ansible_local.mydumper.version.number is version(mydumper_version.number, '!=')
-  tags:
-    - configuration
-    - mydumper
-    - mydumper-install
+    # See http://stackoverflow.com/a/25871286
+    - name: create (build) directory
+      file:
+        path: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/build"
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
 
-- name: remove (build) directory
-  file:
-    path: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/build"
-    state: absent
+    - name: build source
+      shell: >
+        true
+        && cmake ../ -DCMAKE_INSTALL_PREFIX={{ mydumper_install_prefix }}
+        && make
+        && make install
+      args:
+        chdir: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/build"
+
+    - name: remove (build) directory
+      file:
+        path: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/build"
+        state: absent
+
   when: >
     ansible_local is not defined
     or ansible_local.mydumper is not defined
@@ -130,7 +131,7 @@
 
 - name: create (local facts) directory
   file:
-    path: /etc/ansible/facts.d/
+    path: "{{ mydumper_facts_file | dirname }}"
     state: directory
     owner: root
     group: root
@@ -142,8 +143,8 @@
 
 - name: set local facts
   template:
-    src: etc/ansible/facts.d/mydumper.fact.j2
-    dest: /etc/ansible/facts.d/mydumper.fact
+    src: "{{ mydumper_facts_file.lstrip('/') }}.j2"
+    dest: "{{ mydumper_facts_file }}"
     owner: root
     group: root
     mode: 0644
