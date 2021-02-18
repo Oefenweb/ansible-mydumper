@@ -11,7 +11,7 @@
     - mydumper
     - mydumper-dependencies
 
-  # See http://blog.tersmitten.nl/how-to-install-mydumper-on-ubuntu-12-04-in-combination-with-percona-server.html
+# See http://blog.tersmitten.nl/how-to-install-mydumper-on-ubuntu-12-04-in-combination-with-percona-server.html
 - name: check (libmysqlclient_r.so) symlink
   shell: >
     test -f $(readlink libmysqlclient_r.so)
@@ -30,6 +30,7 @@
     ln -sf libmysqlclient.so libmysqlclient_r.so
   args:
     chdir: /usr/lib
+    warn: false
   when: _check_symlink.rc != 0
   tags:
     - configuration
@@ -75,7 +76,7 @@
     - mydumper
     - mydumper-install
 
-  # See http://stackoverflow.com/a/25871286
+# See http://stackoverflow.com/a/25871286
 - name: create (build) directory
   file:
     path: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/build"
