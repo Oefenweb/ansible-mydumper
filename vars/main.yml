@@ -13,3 +13,4 @@ mydumper_dependencies:
 
 mydumper_downloads_path: /var/lib/ansible/mydumper/downloads
 mydumper_builds_path: /var/lib/ansible/mydumper/builds
+mydumper_facts_file: /etc/ansible/facts.d/mydumper.fact
