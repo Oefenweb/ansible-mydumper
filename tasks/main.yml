@@ -42,6 +42,7 @@
     true; whereis mysql_config; whereis mariadb_config;
   args:
     warn: false
+  changed_when: false
   tags:
     - configuration
     - mydumper
