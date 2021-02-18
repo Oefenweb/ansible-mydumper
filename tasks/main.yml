@@ -41,13 +41,13 @@
   shell: >
     true
     && [ -x mariadb_config ]
-    && [ ! -x mysql_config ]
     && ln -sf mariadb_config mysql_config
   args:
     chdir: /usr/bin
+    creates: mysql_config
     warn: false
+  when: mydumper_libmysqlclient_dev.find('mariadb') != -1
   failed_when: false
-  changed_when: false
   tags:
     - configuration
     - mydumper
