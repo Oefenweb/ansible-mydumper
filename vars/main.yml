@@ -1,4 +1,4 @@
-# vars file for mydumper
+# vars file
 ---
 mydumper_dependencies:
   - libglib2.0-dev

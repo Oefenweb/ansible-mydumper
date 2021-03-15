@@ -1,3 +1,3 @@
-# vars file for mydumper
+# vars file
 ---
 mydumper_libmysqlclient_dev: libmysqlclient-dev
