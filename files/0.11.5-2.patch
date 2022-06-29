@@ -1,2 +1,11 @@
-18a19
-> #include <stdlib.h>
+diff -ruN src/common.c src/common.c
+--- common.c	2022-05-18 19:53:03.000000000 +0000
++++ common.c	2022-06-29 20:39:42.992875129 +0000
+@@ -16,6 +16,7 @@
+ #include <glib.h>
+ #include <string.h>
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <unistd.h>
+ #include <errno.h>
+ #include <glib/gstdio.h>
