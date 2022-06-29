@@ -18,3 +18,4 @@ mydumper_facts_file: /etc/ansible/facts.d/mydumper.fact
 mydumper_cmake_options:
   CMAKE_INSTALL_PREFIX: "{{ mydumper_install_prefix }}"
   BUILD_DOCS: "{{ mydumper_build_docs | bool | ternary('ON', 'OFF') }}"
+  WITH_SSL: "{{ mydumper_with_ssl | bool | ternary('ON', 'OFF') }}"

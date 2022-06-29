@@ -2,3 +2,4 @@
 ---
 mydumper_libmysqlclient_dev: libmariadbclient-dev
 mydumper_build_docs: false
+mydumper_with_ssl: false
