@@ -107,7 +107,7 @@
     - name: build source
       ansible.builtin.shell: >
         true
-        && cmake ../ -DCMAKE_INSTALL_PREFIX={{ mydumper_install_prefix }}
+        && cmake ../ {% for key, value in mydumper_cmake_options.items() | sort %} -D{{ key }}={{ value }}{% endfor %}
         && make
         && make install
       args:

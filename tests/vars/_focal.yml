@@ -1,0 +1,4 @@
+# vars file
+---
+mydumper_libmysqlclient_dev: libmysqlclient-dev
+mydumper_build_docs: false
