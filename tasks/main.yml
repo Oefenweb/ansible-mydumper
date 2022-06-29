@@ -112,6 +112,10 @@
     - ansible_distribution == 'Debian'
     - ansible_distribution_major_version is version('10', '<')
     - mydumper_version.number is version('0.11.5-2', '==')
+  tags:
+    - configuration
+    - mydumper
+    - mydumper-patch
 
 - name: patch
   block:
@@ -133,6 +137,10 @@
     - ansible_distribution == 'Debian'
     - ansible_distribution_major_version is version('10', '<')
     - mydumper_version.number is version('0.12.3-3', '==')
+  tags:
+    - configuration
+    - mydumper
+    - mydumper-patch
 
 - name: build
   block:
