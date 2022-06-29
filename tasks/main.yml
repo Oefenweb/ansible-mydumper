@@ -177,7 +177,7 @@
     - mydumper-facts
 
 - name: verify
-  command: >
+  ansible.builtin.command: >
     {{ mydumper_install_prefix }}/bin/{{ item }} --version
   register: _verify_version
   failed_when: >
