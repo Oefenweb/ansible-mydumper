@@ -92,6 +92,27 @@
     - mydumper
     - mydumper-install
 
+- name: patch
+  block:
+
+    - name: copy patch
+      ansible.builtin.copy:
+        src: 0.11.5-2.patch
+        dest: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/"
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: apply patch
+      ansible.posix.patch:
+        src: 0.11.5-2.patch
+        dest: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/common.c"
+
+  when:
+    - ansible_distribution == 'Debian'
+    - ansible_distribution_major_version is version('10', '<')
+    - mydumper_version.number is version('0.11.5-2', '==')
+
 - name: build
   block:
 
