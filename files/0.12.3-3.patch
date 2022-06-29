@@ -1,0 +1,99 @@
+diff -ruN src/common.c src/common.c
+--- src/common.c	2022-05-18 19:53:03.000000000 +0000
++++ src/common.c	2022-06-29 20:39:42.992875129 +0000
+@@ -16,6 +16,7 @@
+ #include <glib.h>
+ #include <string.h>
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <unistd.h>
+ #include <errno.h>
+ #include <glib/gstdio.h>
+diff -ruN src/mydumper_common.c src/mydumper_common.c
+--- src/mydumper_common.c	2022-05-18 19:53:03.000000000 +0000
++++ src/mydumper_common.c	2022-06-29 20:45:52.557551743 +0000
+@@ -19,6 +19,7 @@
+                     David Ducos, Percona (david dot ducos at percona dot com)
+ */
+ #include "string.h"
++#include <stdlib.h>
+ #include <mysql.h>
+ #include <glib.h>
+ #include <glib/gstdio.h>
+diff -ruN src/mydumper_jobs.c src/mydumper_jobs.c
+--- src/mydumper_jobs.c	2022-05-18 19:53:03.000000000 +0000
++++ src/mydumper_jobs.c	2022-06-29 20:43:38.334478604 +0000
+@@ -21,6 +21,7 @@
+ #include <mysql.h>
+ #include <glib.h>
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <string.h>
+ #include <errno.h>
+ #include <glib/gstdio.h>
+diff -ruN src/myloader_common.c src/myloader_common.c
+--- src/myloader_common.c	2022-05-18 19:53:03.000000000 +0000
++++ src/myloader_common.c	2022-06-29 20:48:40.089269674 +0000
+@@ -18,6 +18,7 @@
+ #include <glib.h>
+ #include <glib/gstdio.h>
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <string.h>
+ #ifdef ZWRAP_USE_ZSTD
+ #include "../zstd/zstd_zlibwrapper.h"
+diff -ruN src/myloader_control_job.c src/myloader_control_job.c
+--- src/myloader_control_job.c	2022-05-18 19:53:03.000000000 +0000
++++ src/myloader_control_job.c	2022-06-29 20:55:28.829522869 +0000
+@@ -15,6 +15,7 @@
+         Authors:    David Ducos, Percona (david dot ducos at percona dot com)
+ */
+ #include <glib.h>
++#include <stdlib.h>
+ #include "myloader_control_job.h"
+ #include "myloader_restore_job.h"
+
+diff -ruN src/myloader_directory.c src/myloader_directory.c
+--- src/myloader_directory.c	2022-05-18 19:53:03.000000000 +0000
++++ src/myloader_directory.c	2022-06-29 20:54:12.855557621 +0000
+@@ -20,6 +20,7 @@
+ #include <glib.h>
+ #include <glib/gstdio.h>
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <string.h>
+ #ifdef ZWRAP_USE_ZSTD
+ #include "../zstd/zstd_zlibwrapper.h"
+diff -ruN src/myloader_jobs_manager.c src/myloader_jobs_manager.c
+--- src/myloader_jobs_manager.c	2022-05-18 19:53:03.000000000 +0000
++++ src/myloader_jobs_manager.c	2022-06-29 20:53:13.998145753 +0000
+@@ -18,6 +18,7 @@
+ #include <glib.h>
+ #include <glib/gstdio.h>
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <string.h>
+ #include "myloader_stream.h"
+ #include "common.h"
+diff -ruN src/myloader_process.c src/myloader_process.c
+--- src/myloader_process.c	2022-05-18 19:53:03.000000000 +0000
++++ src/myloader_process.c	2022-06-29 20:47:48.843661531 +0000
+@@ -18,6 +18,7 @@
+ #include <glib.h>
+ #include <glib/gstdio.h>
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <string.h>
+ #include <errno.h>
+ #ifdef ZWRAP_USE_ZSTD
+diff -ruN src/myloader_stream.c src/myloader_stream.c
+--- src/myloader_stream.c	2022-05-18 19:53:03.000000000 +0000
++++ src/myloader_stream.c	2022-06-29 20:46:57.137823404 +0000
+@@ -18,6 +18,7 @@
+ #include <glib.h>
+ #include <glib/gstdio.h>
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <string.h>
+ #ifdef ZWRAP_USE_ZSTD
+ #include "../zstd/zstd_zlibwrapper.h"
