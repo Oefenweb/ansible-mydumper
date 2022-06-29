@@ -175,3 +175,18 @@
     - configuration
     - mydumper
     - mydumper-facts
+
+- name: verify
+  command: >
+    {{ mydumper_install_prefix }}/bin/{{ item }} --version
+  register: _verify_version
+  failed_when: >
+    '.'.join(mydumper_version.number.split('-')[0].split('.')) not in _verify_version.stdout
+  changed_when: false
+  with_items:
+    - mydumper
+    - myloader
+  tags:
+    - configuration
+    - mydumper
+    - mydumper-verify
