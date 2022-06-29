@@ -95,7 +95,7 @@
 - name: patch
   block:
 
-    - name: copy patch
+    - name: copy 0.11.5-2.patch
       ansible.builtin.copy:
         src: 0.11.5-2.patch
         dest: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/"
@@ -103,7 +103,7 @@
         group: root
         mode: 0644
 
-    - name: apply patch
+    - name: apply 0.11.5-2.patch
       ansible.posix.patch:
         src: 0.11.5-2.patch
         dest: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/common.c"
@@ -116,7 +116,7 @@
 - name: patch
   block:
 
-    - name: copy patch
+    - name: copy 0.12.3-3.patch
       ansible.builtin.copy:
         src: 0.12.3-3.patch
         dest: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/"
@@ -124,7 +124,7 @@
         group: root
         mode: 0644
 
-    - name: apply patch
+    - name: apply 0.12.3-3.patch
       ansible.posix.patch:
         src: 0.12.3-3.patch
         basedir: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}"
