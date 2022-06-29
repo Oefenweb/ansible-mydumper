@@ -1,8 +1,8 @@
 # defaults file
 ---
 mydumper_version:
-  number: 0.9.5
-  url: https://github.com/maxbube/mydumper/archive/v0.9.5.tar.gz
+  number: 0.12.3-3
+  url: https://github.com/maxbube/mydumper/archive/v0.12.3-3.tar.gz
 
 mydumper_install_prefix: /usr/local
 mydumper_build_docs: true
