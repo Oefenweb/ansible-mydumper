@@ -92,7 +92,8 @@
     - mydumper
     - mydumper-install
 
-- block:
+- name: build
+  block:
 
     # See http://stackoverflow.com/a/25871286
     - name: create (build) directory
@@ -111,6 +112,7 @@
         && make install
       args:
         chdir: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/build"
+      changed_when: true
 
     - name: remove (build) directory
       ansible.builtin.file:
