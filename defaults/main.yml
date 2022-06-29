@@ -5,5 +5,6 @@ mydumper_version:
   url: https://github.com/maxbube/mydumper/archive/v0.9.5.tar.gz
 
 mydumper_install_prefix: /usr/local
+mydumper_build_docs: true
 
 mydumper_libmysqlclient_dev: libmysqlclient-dev

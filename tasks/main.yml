@@ -1,7 +1,7 @@
 # tasks file
 ---
 - name: install dependencies
-  apt:
+  ansible.builtin.apt:
     name: "{{ mydumper_dependencies }}"
     state: "{{ apt_install_state | default('latest') }}"
     update_cache: true
@@ -13,7 +13,7 @@
 
 # See http://blog.tersmitten.nl/how-to-install-mydumper-on-ubuntu-12-04-in-combination-with-percona-server.html
 - name: check (libmysqlclient_r.so) symlink
-  shell: >
+  ansible.builtin.shell: >
     test -f $(readlink libmysqlclient_r.so)
   args:
     chdir: /usr/lib
@@ -26,7 +26,7 @@
     - mydumper-install
 
 - name: create (libmysqlclient_r.so) symlink
-  shell: >
+  ansible.builtin.shell: >
     ln -sf libmysqlclient.so libmysqlclient_r.so
   args:
     chdir: /usr/lib
@@ -38,7 +38,7 @@
     - mydumper-install
 
 - name: create (mysql_config) symlink
-  shell: >
+  ansible.builtin.shell: >
     true
     && [ -x mariadb_config ]
     && ln -sf mariadb_config mysql_config
@@ -54,7 +54,7 @@
     - mydumper-install
 
 - name: create directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: root
@@ -69,7 +69,7 @@
     - mydumper-directories
 
 - name: download
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ mydumper_version.url }}"
     dest: "{{ mydumper_downloads_path }}/mydumper-{{ mydumper_version.number }}.tar.gz"
     owner: root
@@ -81,7 +81,7 @@
     - mydumper-download
 
 - name: extract source
-  shell: >
+  ansible.builtin.shell: >
     tar -xzvf {{ mydumper_downloads_path }}/mydumper-{{ mydumper_version.number }}.tar.gz
   args:
     chdir: "{{ mydumper_builds_path }}"
@@ -92,11 +92,12 @@
     - mydumper
     - mydumper-install
 
-- block:
+- name: build
+  block:
 
     # See http://stackoverflow.com/a/25871286
     - name: create (build) directory
-      file:
+      ansible.builtin.file:
         path: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/build"
         state: directory
         owner: root
@@ -104,16 +105,17 @@
         mode: 0755
 
     - name: build source
-      shell: >
+      ansible.builtin.shell: >
         true
-        && cmake ../ -DCMAKE_INSTALL_PREFIX={{ mydumper_install_prefix }}
+        && cmake ../ {% for key, value in mydumper_cmake_options.items() | sort %} -D{{ key }}={{ value }}{% endfor %}
         && make
         && make install
       args:
         chdir: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/build"
+      changed_when: true
 
     - name: remove (build) directory
-      file:
+      ansible.builtin.file:
         path: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/build"
         state: absent
 
@@ -130,7 +132,7 @@
     - mydumper-install
 
 - name: create (local facts) directory
-  file:
+  ansible.builtin.file:
     path: "{{ mydumper_facts_file | dirname }}"
     state: directory
     owner: root
@@ -142,7 +144,7 @@
     - mydumper-facts
 
 - name: set local facts
-  template:
+  ansible.builtin.template:
     src: "{{ mydumper_facts_file.lstrip('/') }}.j2"
     dest: "{{ mydumper_facts_file }}"
     owner: root
