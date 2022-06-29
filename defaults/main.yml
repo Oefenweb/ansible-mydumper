@@ -1,8 +1,8 @@
 # defaults file
 ---
 mydumper_version:
-  number: 0.11.5-2
-  url: https://github.com/mydumper/mydumper/archive/v0.11.5-2.tar.gz
+  number: 0.12.3-3
+  url: https://github.com/mydumper/mydumper/archive/v0.12.3-3.tar.gz
 
 mydumper_install_prefix: /usr/local
 mydumper_build_docs: true
