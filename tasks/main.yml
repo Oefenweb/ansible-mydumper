@@ -25,19 +25,18 @@
     - mydumper
     - mydumper-install
 
-- name: create (libmysqlclient_r.so) symlink
+- name: create (libmysqlclient_r.so) symlink  # noqa command-instead-of-module
   ansible.builtin.shell: >
     ln -sf libmysqlclient.so libmysqlclient_r.so
   args:
     chdir: /usr/lib
-    warn: false
   when: _check_symlink.rc != 0
   tags:
     - configuration
     - mydumper
     - mydumper-install
 
-- name: create (mysql_config) symlink
+- name: create (mysql_config) symlink  # noqa command-instead-of-module
   ansible.builtin.shell: >
     true
     && [ -x mariadb_config ]
@@ -45,7 +44,6 @@
   args:
     chdir: /usr/bin
     creates: mysql_config
-    warn: false
   when: mydumper_libmysqlclient_dev.find('mariadb') != -1
   failed_when: false
   tags:
@@ -80,13 +78,12 @@
     - mydumper
     - mydumper-download
 
-- name: extract source
+- name: extract source  # noqa command-instead-of-module
   ansible.builtin.shell: >
     tar -xzvf {{ mydumper_downloads_path }}/mydumper-{{ mydumper_version.number }}.tar.gz
   args:
     chdir: "{{ mydumper_builds_path }}"
     creates: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}"
-    warn: false
   tags:
     - configuration
     - mydumper
