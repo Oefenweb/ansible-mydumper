@@ -90,8 +90,15 @@
     - mydumper-install
 
 - name: patch
+  when:
+    - ansible_distribution == 'Debian'
+    - ansible_distribution_major_version is version('10', '<')
+    - mydumper_version.number is version('0.11.5-2', '==')
+  tags:
+    - configuration
+    - mydumper
+    - mydumper-patch
   block:
-
     - name: copy 0.11.5-2.patch
       ansible.builtin.copy:
         src: 0.11.5-2.patch
@@ -105,18 +112,16 @@
         src: 0.11.5-2.patch
         dest: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/common.c"
 
+- name: patch
   when:
     - ansible_distribution == 'Debian'
     - ansible_distribution_major_version is version('10', '<')
-    - mydumper_version.number is version('0.11.5-2', '==')
+    - mydumper_version.number is version('0.12.3-3', '==')
   tags:
     - configuration
     - mydumper
     - mydumper-patch
-
-- name: patch
   block:
-
     - name: copy 0.12.3-3.patch
       ansible.builtin.copy:
         src: 0.12.3-3.patch
@@ -130,18 +135,19 @@
         src: 0.12.3-3.patch
         basedir: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}"
 
-  when:
-    - ansible_distribution == 'Debian'
-    - ansible_distribution_major_version is version('10', '<')
-    - mydumper_version.number is version('0.12.3-3', '==')
+- name: build
+  when: >
+    ansible_local is not defined
+    or ansible_local.mydumper is not defined
+    or ansible_local.mydumper.version is not defined
+    or ansible_local.mydumper.version.number is not defined
+    or ansible_local.mydumper.version.number is defined
+    and ansible_local.mydumper.version.number is version(mydumper_version.number, '!=')
   tags:
     - configuration
     - mydumper
-    - mydumper-patch
-
-- name: build
+    - mydumper-install
   block:
-
     # See http://stackoverflow.com/a/25871286
     - name: create (build) directory
       ansible.builtin.file:
@@ -165,18 +171,6 @@
       ansible.builtin.file:
         path: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/build"
         state: absent
-
-  when: >
-    ansible_local is not defined
-    or ansible_local.mydumper is not defined
-    or ansible_local.mydumper.version is not defined
-    or ansible_local.mydumper.version.number is not defined
-    or ansible_local.mydumper.version.number is defined
-    and ansible_local.mydumper.version.number is version(mydumper_version.number, '!=')
-  tags:
-    - configuration
-    - mydumper
-    - mydumper-install
 
 - name: create (local facts) directory
   ansible.builtin.file:

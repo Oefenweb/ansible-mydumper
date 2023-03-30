@@ -3,5 +3,4 @@ warn_list:
   - role-name
   - name[play]
   - name[casing]
-  - '302'
-  - '303'
+  - no-changed-when
