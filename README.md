@@ -19,7 +19,7 @@ Set up [mydumper](https://github.com/mydumper/mydumper) (How MySQL DBA & support
 
 #### Variables
 
-* `mydumper_version` [default: `{number: 0.12.3-3, url: https://github.com/mydumper/mydumper/archive/v0.12.3-3.tar.gz}`]: Version to install
+* `mydumper_version` [default: `{number: 0.14.5-2, url: https://github.com/mydumper/mydumper/archive/v0.14.5-2.tar.gz}`]: Version to install
 * `mydumper_install_prefix` [default: `/usr/local`]: Install prefix (`cmake -DCMAKE_INSTALL_PREFIX`)
 * `mydumper_build_docs` [default: `true`]: Whether to build docs
 * `mydumper_with_ssl` [default: `true`]: Whether to build with SSL (to build against mysql libs < 5.7 you need to disable SSL)
