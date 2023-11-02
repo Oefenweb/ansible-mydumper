@@ -35,7 +35,7 @@ None
 ---
 - hosts: all
   roles:
-    - mydumper
+    - oefenweb.mydumper
 ```
 
 #### License
