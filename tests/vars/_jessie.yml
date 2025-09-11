@@ -1,4 +1,0 @@
-# vars file
----
-mydumper_libmysqlclient_dev: libmysqlclient-dev
-mydumper_with_ssl: false
