@@ -1,4 +1,3 @@
 # vars file
 ---
 mydumper_libmysqlclient_dev: libmariadb-dev
-mydumper_build_docs: false
