@@ -57,7 +57,7 @@
     state: directory
     owner: root
     group: root
-    mode: 0755
+    mode: '0755'
   with_items:
     - "{{ mydumper_downloads_path }}"
     - "{{ mydumper_builds_path }}"
@@ -72,7 +72,7 @@
     dest: "{{ mydumper_downloads_path }}/mydumper-{{ mydumper_version.number }}.tar.gz"
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
   tags:
     - configuration
     - mydumper
@@ -89,7 +89,7 @@
     - mydumper
     - mydumper-install
 
-- name: patch
+- name: patch | 0.11.5-2
   when:
     - ansible_distribution == 'Debian'
     - ansible_distribution_major_version is version('10', '<')
@@ -105,14 +105,14 @@
         dest: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/"
         owner: root
         group: root
-        mode: 0644
+        mode: '0644'
 
     - name: apply 0.11.5-2.patch
       ansible.posix.patch:
         src: 0.11.5-2.patch
         dest: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/common.c"
 
-- name: patch
+- name: patch | 0.12.3-3
   when:
     - ansible_distribution == 'Debian'
     - ansible_distribution_major_version is version('10', '<')
@@ -128,12 +128,35 @@
         dest: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/"
         owner: root
         group: root
-        mode: 0644
+        mode: '0644'
 
     - name: apply 0.12.3-3.patch
       ansible.posix.patch:
         src: 0.12.3-3.patch
         basedir: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}"
+
+# See https://github.com/mydumper/mydumper/issues/2022
+- name: patch | 0.19.4-17
+  when:
+    - mydumper_version.number is version('0.19.4-17', '==')
+  tags:
+    - configuration
+    - mydumper
+    - mydumper-patch
+  block:
+    - name: copy 2023.patch
+      ansible.builtin.copy:
+        src: 2023.patch
+        dest: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}/"
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: apply 2023.patch
+      ansible.posix.patch:
+        src: 2023.patch
+        basedir: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}"
+        strip: 1
 
 - name: build
   when: >
@@ -155,7 +178,7 @@
         state: directory
         owner: root
         group: root
-        mode: 0755
+        mode: '0755'
 
     - name: build source
       ansible.builtin.shell: >
@@ -178,7 +201,7 @@
     state: directory
     owner: root
     group: root
-    mode: 0755
+    mode: '0755'
   tags:
     - configuration
     - mydumper
@@ -190,7 +213,7 @@
     dest: "{{ mydumper_facts_file }}"
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
   tags:
     - configuration
     - mydumper
