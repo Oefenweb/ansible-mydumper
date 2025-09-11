@@ -1,0 +1,22 @@
+From c9b80aaebdfe4f281bc69101bee9e039f815785d Mon Sep 17 00:00:00 2001
+From: David Ducos <david.ducos@gmail.com>
+Date: Wed, 10 Sep 2025 09:25:37 -0300
+Subject: [PATCH] arg_v was already a pointer
+
+---
+ src/connection.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/connection.c b/src/connection.c
+index 312e2e4d..04acdfe0 100644
+--- a/src/connection.c
++++ b/src/connection.c
+@@ -164,7 +164,7 @@ void check_capath(const char *path) {
+ static
+ void m_options(MYSQL *conn, enum mysql_option option, gboolean arg_b, const void *arg_v){
+   if (arg_b){
+-    if ( mysql_options(conn, option, &arg_v))
++    if ( mysql_options(conn, option, arg_v))
+        m_error("mysql_options() failed: %s\n", mysql_error(conn));
+   }
+ }
