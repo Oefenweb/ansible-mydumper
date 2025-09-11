@@ -13,7 +13,7 @@
         - "{{ playbook_dir }}/vars/_default.yml"
   roles:
     - ../../
-  vars:
-    mydumper_version:
-      number: 0.19.4-17
-      url: https://github.com/mydumper/mydumper/archive/v0.19.4-17.tar.gz
+#  vars:
+#    mydumper_version:
+#      number: 0.19.4-17
+#      url: https://github.com/mydumper/mydumper/archive/v0.19.4-17.tar.gz
