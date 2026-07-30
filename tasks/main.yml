@@ -91,8 +91,8 @@
 
 - name: patch | 0.11.5-2
   when:
-    - ansible_distribution == 'Debian'
-    - ansible_distribution_major_version is version('10', '<')
+    - ansible_facts['distribution'] == 'Debian'
+    - ansible_facts['distribution_major_version'] is version('10', '<')
     - mydumper_version.number is version('0.11.5-2', '==')
   tags:
     - configuration
@@ -114,8 +114,8 @@
 
 - name: patch | 0.12.3-3
   when:
-    - ansible_distribution == 'Debian'
-    - ansible_distribution_major_version is version('10', '<')
+    - ansible_facts['distribution'] == 'Debian'
+    - ansible_facts['distribution_major_version'] is version('10', '<')
     - mydumper_version.number is version('0.12.3-3', '==')
   tags:
     - configuration
@@ -160,12 +160,12 @@
 
 - name: build
   when: >
-    ansible_local is not defined
-    or ansible_local.mydumper is not defined
-    or ansible_local.mydumper.version is not defined
-    or ansible_local.mydumper.version.number is not defined
-    or ansible_local.mydumper.version.number is defined
-    and ansible_local.mydumper.version.number is version(mydumper_version.number, '!=')
+    ansible_facts['lo']cal is not defined
+    or ansible_facts['lo']cal.mydumper is not defined
+    or ansible_facts['lo']cal.mydumper.version is not defined
+    or ansible_facts['lo']cal.mydumper.version.number is not defined
+    or ansible_facts['lo']cal.mydumper.version.number is defined
+    and ansible_facts['lo']cal.mydumper.version.number is version(mydumper_version.number, '!=')
   tags:
     - configuration
     - mydumper
