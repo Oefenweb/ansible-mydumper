@@ -158,6 +158,14 @@
         basedir: "{{ mydumper_builds_path }}/mydumper-{{ mydumper_version.number }}"
         strip: 1
 
+- name: debug
+  debug:
+    var: ansible_facts['local']
+  tags:
+    - configuration
+    - mydumper
+    - mydumper-install
+
 - name: build
   when: >
     ansible_facts['local'] is not defined
