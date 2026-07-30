@@ -160,7 +160,7 @@
 
 - name: debug
   ansible.builtin.debug:
-    var: ansible_facts['local'] | default({})
+    var: ansible_facts['ansible_local']
   tags:
     - configuration
     - mydumper
@@ -168,12 +168,12 @@
 
 - name: build
   when: >
-    ansible_facts['local'] is not defined
-    or ansible_facts['local']['mydumper'] is not defined
-    or ansible_facts['local']['mydumper']['version'] is not defined
-    or ansible_facts['local']['mydumper']['version']['number'] is not defined
-    or ansible_facts['local']['mydumper']['version']['number'] is defined
-    and ansible_facts['local']['mydumper']['version']['number'] is version(mydumper_version.number, '!=')
+    ansible_facts['ansible_local'] is not defined
+    or ansible_facts['ansible_local']['mydumper'] is not defined
+    or ansible_facts['ansible_local']['mydumper']['version'] is not defined
+    or ansible_facts['ansible_local']['mydumper']['version']['number'] is not defined
+    or ansible_facts['ansible_local']['mydumper']['version']['number'] is defined
+    and ansible_facts['ansible_local']['mydumper']['version']['number'] is version(mydumper_version.number, '!=')
   tags:
     - configuration
     - mydumper
