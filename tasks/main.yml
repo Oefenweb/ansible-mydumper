@@ -160,7 +160,7 @@
 
 - name: debug
   ansible.builtin.debug:
-    var: ansible_facts['local']
+    var: ansible_facts['local'] | default({})
   tags:
     - configuration
     - mydumper
