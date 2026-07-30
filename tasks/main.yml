@@ -160,12 +160,12 @@
 
 - name: build
   when: >
-    ansible_facts['lo']cal is not defined
-    or ansible_facts['lo']cal.mydumper is not defined
-    or ansible_facts['lo']cal.mydumper.version is not defined
-    or ansible_facts['lo']cal.mydumper.version.number is not defined
-    or ansible_facts['lo']cal.mydumper.version.number is defined
-    and ansible_facts['lo']cal.mydumper.version.number is version(mydumper_version.number, '!=')
+    ansible_facts['local'] is not defined
+    or ansible_facts['local']['mydumper'] is not defined
+    or ansible_facts['local']['mydumper']['version'] is not defined
+    or ansible_facts['local']['mydumper']['version']['number'] is not defined
+    or ansible_facts['local']['mydumper']['version']['number'] is defined
+    and ansible_facts['local']['mydumper']['version']['number'] is version(mydumper_version.number, '!=')
   tags:
     - configuration
     - mydumper
