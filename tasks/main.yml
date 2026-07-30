@@ -159,7 +159,7 @@
         strip: 1
 
 - name: debug
-  debug:
+  ansible.builtin.debug:
     var: ansible_facts['local']
   tags:
     - configuration
